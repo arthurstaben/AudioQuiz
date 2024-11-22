@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2> Mensagem -- {{ Classe.turma }} {{ Classe.idioma }}</h2>
+
+<form action="{% url 'classes:mensagem' Classe.id %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Postar Mensagem</button>
+</form>
+
+<p><a href="{% url 'classes:mural' Classe.id %}">Voltar para a o mural da classe</a></p>
+{% endblock content %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2> Atividade -- {{ Classe.turma }} {{ Classe.idioma }}</h2>
+
+<form method="POST" action="{% url 'classes:atividades_create' Classe.id %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="file" name="conteudo" accept="application/pdf">
+    <button type="submit">Enviar</button>
+</form>
+
+<p><a href="{% url 'classes:atividades_index' Classe.id %}">Voltar para a seção de atividades da classe</a></p>
+{% endblock content %}

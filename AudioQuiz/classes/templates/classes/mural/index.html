@@ -1,0 +1,30 @@
+{% extends 'base.html' %} {% block content %}
+<html lang="en">
+<body>
+        <nav class="nav-classe">
+            <a href="{% url 'classes:mural' Classe.id %}" class="active">Mural</a>
+            <a href="{% url 'classes:flashcards' Classe.id %}">Flashcards</a>
+            <a href="{% url 'classes:atividades_index' Classe.id %}">Atividades</a>
+        </nav>
+
+</body>
+<hr>
+<section>
+    <a href="{% url 'classes:mensagem' Classe.id %}"><button>Crie sua mensagem</button></a>
+    <ul>
+        {% if Classe.mensagem_set.all %}
+            {% for mensagem in Classe.mensagem_set.all %}
+            <figure>
+                <blockquote>
+                    "{{ mensagem.conteudo }}"
+                </blockquote>
+                <figcaption>—{{ mensagem.usuario }}</figcaption>
+            </figure>
+            {% endfor %}
+        {% else %}
+            <p>Ainda não existe nenhuma mensagem neste mural.</p>
+        {% endif %}
+    </ul>
+</section>
+</html>
+{% endblock content %}

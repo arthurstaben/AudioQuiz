@@ -1,0 +1,39 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}{% endblock %} AudioQuiz
+    </title>
+    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" /> <!-- adicione esta linha -->
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}"> <!-- adicione esta linha -->
+</head>
+
+<body>
+    <header id="cabecalho-principal">
+        <a href="{% url 'classes:index' %}"><img src="{% static 'AudioQuiz.svg' %}" width="250" height="auto"></a>
+        <nav id="navegacao-principal">
+            <ul>
+                <li><a href="{% url 'classes:index' %}"><img src="{% static 'Home.svg' %}" width="40" height="auto"></a></li>
+                <li><a href="{% url 'accounts:profile' %}"><img src="{% static 'perfil.svg' %}" width="40" height="auto"></a></li>
+            </ul>
+        </nav>
+
+    </header>
+    <main id="conteiner-principal">
+        {% block content %}
+        {% endblock content %}
+    </main>
+    <footer id="rodape-principal">
+        <p>
+            <small>Copyright 2024</small>
+        </p>
+    </footer>
+</body>
+
+</html>

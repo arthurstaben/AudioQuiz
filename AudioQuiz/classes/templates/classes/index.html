@@ -1,0 +1,23 @@
+{% extends 'base.html' %} {% block content %}
+<h2>Classes</h2>
+<section>
+  <p>
+    Gostaria de incluir outra classe?
+    <a href="{% url 'classes:create' %}">Nova Classe</a>
+  </p>
+</section>
+{% if Classe_list %}
+<section class="lista-de-cards">
+  {% for Classe in Classe_list %}
+  <article class="card">
+    <a href="{% url 'classes:mural' Classe.id %}"><img src="{{ Classe.poster.url }}" alt="Poster do {{ Classe.idioma}}"/></a>
+    <p><strong>{{ Classe.title }}</strong></p>
+    <p>Turma {{ Classe.turma }}</p>
+    <p>Professor {{ Classe.professor }}</p>
+    </p>
+  </article>
+  {% endfor %}
+</section>
+{% else %}
+<p>Você não está matriculado em nenhuma classe.</p>
+{% endif %} {% endblock content %}

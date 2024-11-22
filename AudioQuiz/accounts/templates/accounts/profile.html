@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container profile-page">
+    <header class="profile-header">
+        <img src="{% static 'perfil.svg' %}" alt="Profile Picture" class="profile-picture">
+        <h1>Bem-vindo, {{ usuario.nome }} {{ usuario.sobrenome }}</h1>
+    </header>
+
+    <div class="content">
+        <section class="personal-info">
+            <h2>Dados Pessoais</h2>
+            <div>
+                <p><strong>Nome:</strong> {{ usuario.nome }}</p>
+                <p><strong>Sobrenome:</strong> {{ usuario.sobrenome }}</p>
+                <p><strong>Email:</strong> {{ usuario.email }}</p>
+            </div>
+            <button type="submit" class="btn btn-primary">Alterar</button>
+        </section>
+
+        <section class="stats">
+            <div class="stat-item">
+                <h3>Alunos</h3>
+                <p>Matriculados: <strong>20</strong></p>
+                <p>Pendentes: <strong>2</strong></p>
+            </div>
+            <div class="stat-item">
+                <h3>Classes</h3>
+                <p>Ativas: <strong>10</strong></p>
+                <p>Arquivadas: <strong>2</strong></p>
+            </div>
+            <div class="stat-item">
+                <h3>Flashcards</h3>
+                <p>Revisados: <strong>535</strong></p>
+                <p>Corrigidos: <strong>25</strong></p>
+            </div>
+            <div class="stat-item">
+                <h3>Uploads</h3>
+                <p>PDF: <strong>78</strong></p>
+                <p>Vídeos: <strong>26</strong></p>
+            </div>
+        </section>
+    </div>
+
+    <button class="btn btn-secondary logout-btn">Logout</button>
+</div>
+{% endblock %}

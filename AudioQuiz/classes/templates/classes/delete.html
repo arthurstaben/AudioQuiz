@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<form action="{% url 'classes:delete' object.id %}" method="post">
+  {% csrf_token %}
+  <p>
+    Você tem certeza que deseja apagar a classe "{{ object.title }}"?
+  </p>
+  <button type="submit">Apagar</button>
+</form>
+{% endblock content %}
