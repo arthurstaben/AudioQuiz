@@ -11,7 +11,7 @@
   {% for Classe in Classe_list %}
   <article class="card">
     <a href="{% url 'classes:mural' Classe.id %}"><img src="{{ Classe.poster.url }}" alt="Poster do {{ Classe.idioma}}"/></a>
-    <p><strong>{{ Classe.title }}</strong></p>
+    <p><strong>{{ Classe.idioma }}</strong></p>
     <p>Turma {{ Classe.turma }}</p>
     <p>Professor {{ Classe.professor }}</p>
     </p>

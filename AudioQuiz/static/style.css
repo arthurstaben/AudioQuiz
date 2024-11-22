@@ -26,7 +26,15 @@ html, body {
   overflow-x: hidden;
 }
 
-
+header {
+  width: 100vw; /* Cobre toda a largura */
+  height: 100vh; /* Cobre toda a altura */
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+  position: relative; /* Contexto para elementos absolutos */
+  background-color: var(--bg-color);
+}
 
 #logo {
   position: relative;
@@ -65,12 +73,13 @@ html, body {
   border-radius: 5px;
   text-decoration: none;
   font-weight: bold;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   transition: background-color 0.3s;
 }
 
 #potencialize .btn:hover {
-  background-color: var(--secondary-color-light);
+  background-color: #F2F2F2;
+  color: #000;
 }
 
 /* Link "Entrar" no canto superior direito */
@@ -99,6 +108,7 @@ html, body {
   padding: 2rem;
   max-width: 800px;
   margin: 0 auto;
+  font-family: 'Playfair Display', 'serif';
 }
 
 .feature {
@@ -127,6 +137,17 @@ html, body {
   margin: 0.5rem 0 0;
   font-size: 1rem;
   color: #555;
+}
+
+.feature-text ul {
+  list-style-type: disc; /* Ou outro estilo desejado */
+  padding-left: 20px;
+  margin: 0;
+}
+
+.feature-text ul li {
+  font-size: 1rem;
+  color: #000;
 }
 
   header#cabecalho-principal {
@@ -424,27 +445,35 @@ html, body {
 }
 /* Escopo para a página de perfil */
 .profile-page {
-  max-width: 1200px;
-  margin: 40px auto;
+  max-width: 900px; /* Largura máxima */
+  margin: 40px auto; /* Centralizado */
   padding: 20px;
   background: #ffffff;
   border-radius: 15px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Corrige borda cortada */
 }
 
 /* Header */
 .profile-page .profile-header {
-  text-align: center;
+  text-align: center; /* Centraliza horizontalmente o conteúdo */
   margin-bottom: 40px;
+  display: flex;
+  flex-direction: column; /* Organiza os elementos verticalmente */
+  justify-content: center; /* Centraliza verticalmente */
+  align-items: center; /* Centraliza horizontalmente */
+  width: 100%; /* Garante que o cabeçalho ocupe toda a largura */
+  height: 200px; /* Define uma altura para o cabeçalho */
+  position: relative; /* Cria contexto para posicionamento */
 }
-
 .profile-page .profile-header img {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
+  width: 120px; /* Define a largura da imagem */
+  height: 120px; /* Define a altura da imagem */
+  border-radius: 50%; /* Torna a imagem redonda */
   background-color: #eaeaea;
-  display: block;
-  margin: 0 auto 10px;
+  display: block; /* Garante que a imagem seja tratada como bloco */
+  margin: 0 auto; /* Centraliza a imagem horizontalmente */
+  object-fit: cover; /* Garante que a imagem não deforme */
 }
 
 .profile-page .profile-header h1 {
