@@ -1,3 +1,129 @@
-{% extends 'base.html' %} {% block content %}
-<p>Cards</p>
+{% extends 'base.html' %}
+{% block content %}
+{% if user.is_authenticated %}
+<div class="controls">
+  <button id="voltar" class="action-btn voltar-btn" onclick="window.history.back()" style="background-color: #ddd; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px;" onmouseover="this.style.backgroundColor='#ffd700'; this.style.color='#f1f1f1';" onmouseout="this.style.backgroundColor='#ddd'; this.style.color='white';">←</button>
+</div>
+<div class="deck-page">
+  <div class="deck-container">
+    <h1>{{ deck.nome }}</h1>
+    <div class="card-display">
+      <div id="card" class="card" onclick="flipCard()">
+        <div class="card-content">
+          <p id="card-content">
+            {% if cards %}
+                {{ cards.0.lado_frente }}
+            {% else %}
+                Nenhum card disponível.
+            {% endif %}
+          </p>
+        </div>
+      </div>
+      <p class="card-hint" id="card-hint">Clique no cartão para virá-lo</p>
+    </div>
+    <div class="controls">
+      <button id="prev-card-btn" class="control-btn" onclick="prevCard()">←</button>
+      <button id="next-card-btn" class="control-btn" onclick="nextCard()">→</button>
+    </div>
+    <div class="actions">
+      <button id="incorrect-btn" class="action-btn" style="background-color: #FF0033; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px;" onmouseover="this.style.backgroundColor='#bf0127'; this.style.color='#f1f1f1';" onmouseout="this.style.backgroundColor='#FF0033'; this.style.color='white';">✘</button>
+      <button id="mic-btn" class="action-btn">🎤</button>
+      <button id="correct-btn" class="action-btn" onclick="markCardAsMaduro()" style="background-color: #57AC78; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px;" onmouseover="this.style.backgroundColor='#42845b'; this.style.color='#f1f1f1';" onmouseout="this.style.backgroundColor='#57AC78'; this.style.color='white';">✔</button>
+    </div>
+    <a href="{% url 'classes:create_card' deck.id %}" class="add-card-btn">Adicionar Novo Card</a>
+  </div>
+</div>
+
+<script id="cards-data" type="application/json">
+    {{ cards|safe }}
+</script>
+
+<script>
+    // Verificação e inicialização da variável cards
+    let cards; // Declare `cards` apenas uma vez.
+  
+    const rawCards = document.getElementById('cards-data').textContent;
+  
+    try {
+      const rawCards = document.getElementById('cards-data').textContent;
+      cards = JSON.parse(rawCards); // Tenta transformar o JSON do script em um array
+      console.log('Cards carregados:', cards);
+    } catch (e) {
+        console.error('Erro ao analisar JSON:', e); // Loga o erro caso o JSON esteja malformado
+        cards = []; // Inicializa como lista vazia se houver erro
+    }
+  
+    console.log('Cards carregados:', cards); // Para verificar no console do navegador
+  
+    // Outras variáveis globais necessárias
+    let currentIndex = 0;
+    const cardContent = document.getElementById('card-content');
+    const cardHint = document.getElementById('card-hint');
+    let isFront = true;
+    const deck_id = "{{ deck.id }}";
+  
+    // Funções
+    function updateCard() {
+        if (cards.length > 0) {
+            const card = cards[currentIndex];
+            cardContent.textContent = isFront ? card.lado_frente : card.lado_tras;
+            cardHint.textContent = isFront
+                ? "Clique no cartão para virá-lo →"
+                : "Clique novamente para voltar →";
+        } else {
+            cardContent.textContent = "Nenhum card disponível";
+            cardHint.textContent = "";
+        }
+    }
+  
+    function flipCard() {
+        isFront = !isFront;
+        updateCard();
+    }
+  
+    function nextCard() {
+        console.log('Avançando para o próximo card...');
+        console.log('Índice atual antes de avançar:', currentIndex);
+  
+        if (currentIndex < cards.length - 1) {
+            currentIndex++;
+            console.log('Índice atual depois de avançar:', currentIndex);
+            updateCard();
+        } else {
+            console.log('Você já está no último card.');
+        }
+    }
+  
+    function prevCard() {
+        console.log('Voltando para o card anterior...');
+        console.log('Índice atual antes de voltar:', currentIndex);
+  
+        if (currentIndex > 0) {
+            currentIndex--;
+            console.log('Índice atual depois de voltar:', currentIndex);
+            updateCard();
+        } else {
+            console.log('Você já está no primeiro card.');
+        }
+    }
+
+    function markCardAsMaduro() {
+        if (cards.length > 0 && currentIndex < cards.length) {
+            const card = cards[currentIndex];
+            card.maduro = true;  // Marca o card como maduro localmente
+            console.log(`Card ID ${card.id} marcado como maduro.`, card);
+            nextCard();  // Avança para o próximo card
+        } else {
+            console.warn('Nenhum card disponível para marcar como maduro.');
+        }
+    }
+    // Inicializa o primeiro card
+    updateCard();
+</script>
+
+{% else %}
+  <p>Você não está logado.</p>
+  <br>
+  <a href="{% url 'accounts:login' %}" class="botaozinho">Faça login aqui</a>
+{% endif %}
 {% endblock content %}

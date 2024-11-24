@@ -1,30 +1,57 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% if user.is_authenticated %}
 <html lang="en">
-<body>
-    <nav class="nav-classe">
-        <a href="{% url 'classes:mural' Classe.id %}">Mural</a>
-        <a href="{% url 'classes:flashcards' Classe.id %}">Flashcards</a>
-        <a href="{% url 'classes:atividades_index' Classe.id %}" class="active">Atividades</a>
-    </nav>
-</body>
-<hr>
-<section>
-    <a href="{% url 'classes:atividades_create' Classe.id %}"><button>Crie sua atividade</button></a>
-    <ul>
-        {% if Classe.arquivo_set.all %}
-            {% for arquivo in Classe.arquivo_set.all %}
-            <figure>
-                <blockquote>
-                    "{{ arquivo.nome }}"
-                </blockquote>
-                <figcaption>—{{ arquivo.data_upload }}</figcaption>
-            </figure>
-            {% endfor %}
+    <div class="atividades-page">
+        {% if user.is_authenticated %}
+            <nav class="nav-classe">
+                <a href="{% url 'classes:mural' Classe.id %}">Mural</a>
+                <a href="{% url 'classes:flashcards' Classe.id %}">Flashcards</a>
+                <a href="{% url 'classes:atividades_index' Classe.id %}" class="active">Atividades</a>
+            </nav>
+
+            <section>
+                {% if user.tipo == 1 %}
+                <a href="{% url 'classes:atividades_create' Classe.id %}">
+                    <button class="botaozao" >Crie sua atividade</button>
+                </a>
+                {% endif %}
+                <ul>
+                    {% if Classe.arquivo_set.all %}
+                        {% for arquivo in Classe.arquivo_set.all %}
+                        <figure>
+                            <img src="{% static 'pdf-icon.svg' %}" alt="Ícone do Arquivo">
+                            <blockquote>
+                                {{ arquivo.nome }}
+                            </blockquote>
+                            <figcaption>Upload dia {{ arquivo.data_upload|date:"d/m/Y" }}</figcaption>
+                            <a href="{% url 'classes:download_pdf' arquivo.id %}" class="botaozinho">
+                                Baixar Arquivo
+                            </a>
+                            {% if user.tipo == 1 %}
+                                <div>
+                                <a href="{% url 'classes:atividades_update' arquivo.id %}" class="botaozinho">Alterar Nome do Arquivo</a>
+                                <a href="{% url 'classes:atividades_delete' arquivo.id %}" class = "delete-button">Apagar Arquivo</a>
+                                </div>
+                            {% endif %}
+                            
+                        </figure>
+                        {% endfor %}
+                    {% else %}
+                        <p>Ainda não existe nenhuma atividade nesta classe.</p>
+                    {% endif %}
+                </ul>
+            </section>
         {% else %}
-            <p>Ainda não existe nenhuma atividade nesta classe.</p>
+            <p>Você não está logado. <a href="{% url 'accounts:login' %}">Faça login aqui</a>.</p>
         {% endif %}
-    </ul>
-    <a href="{% url 'classes:delete' Classe.id %}">Apagar</a>
-</section>
+    </div>
 </html>
+{% else %}
+  <p>Você não está logado.</p>
+  <br>
+  <a href="{% url 'accounts:login' %}" class="botaozinho">Faça login aqui</a>
+{% endif %}
 {% endblock content %}

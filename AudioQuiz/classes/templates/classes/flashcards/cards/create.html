@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if user.is_authenticated %}
+<h2>Adicionar Novo Card ao Deck "{{ deck.nome }}"</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Adicionar Card</button>
+</form>
+<a href="{% url 'classes:cards' deck.id %}">Voltar ao Deck</a>
+{% else %}
+  <p>Você não está logado.</p>
+  <br>
+  <a href="{% url 'accounts:login' %}" class="botaozinho">Faça login aqui</a>
+{% endif %}
+{% endblock content %}

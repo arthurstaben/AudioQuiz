@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% block content %}
+{% if user.is_authenticated %}
+
+<h2>Alterar Classe {{Classe.turma}}</h2>
+<form method="POST" action="{% url 'classes:update' classe.id%}" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Alterar</button>
+</form>
+{% else %}
+  <p>Você não está logado.</p>
+  <br>
+  <a href="{% url 'accounts:login' %}" class="botaozinho">Faça login aqui</a>
+{% endif %}
+{% endblock content %}

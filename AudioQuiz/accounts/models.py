@@ -1,13 +1,13 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.contrib.auth.hashers import make_password
 
-# Create your models here.
-class Usuario(models.Model):
-    nome = models.CharField(max_length=255)
-    sobrenome = models.CharField(max_length=255)
-    usuario = models.CharField(max_length=255)
-    email = models.EmailField(max_length=255, unique=True)
-    senha = models.CharField(max_length=255)
-    tipo = models.BooleanField()  # True ou False
+class Usuario(AbstractUser):
+    tipo = models.BooleanField(default=False) # True ou False
+    password = models.CharField(max_length=128, default=make_password("default_password"))  # Valor padrão
+    username = models.CharField(max_length=150, unique=True, default="default_username")
+    poster = models.ImageField(upload_to='accounts/', blank=True, null=True)
 
     def __str__(self):
-        return f"{self.nome} {self.sobrenome}"
+        return self.username  
+    

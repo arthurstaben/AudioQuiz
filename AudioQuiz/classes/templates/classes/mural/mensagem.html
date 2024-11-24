@@ -1,13 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2> Mensagem -- {{ Classe.turma }} {{ Classe.idioma }}</h2>
+{% if user.is_authenticated %}
 
-<form action="{% url 'classes:mensagem' Classe.id %}" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Postar Mensagem</button>
-</form>
-
-<p><a href="{% url 'classes:mural' Classe.id %}">Voltar para a o mural da classe</a></p>
+<div class="page-mensagem">
+    <div class="content">
+        <h2>Mensagem ({{ Classe.idioma }}: Turma {{ Classe.turma }})</h2>
+        <form method="post">
+            {% csrf_token %}
+            <label for="conteudo">Conteúdo:</label>
+            {{ form.conteudo }}
+            
+            <button type="submit">Postar Mensagem</button>
+            <p><a href="{% url 'classes:atividades_index' Classe.id %}">Voltar para o mural</a></p>
+        </form>
+    </div>
+</div>
+{% else %}
+  <p>Você não está logado.</p>
+  <br>
+  <a href="{% url 'accounts:login' %}" class="botaozinho">Faça login aqui</a>
+{% endif %}
 {% endblock content %}

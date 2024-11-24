@@ -1,8 +1,14 @@
 {% extends 'base.html' %} {% block content %}
+{% if user.is_authenticated %}
 <h2>Nova Classe</h2>
 <form method="POST" action="{% url 'classes:create' %}" enctype="multipart/form-data">
   {% csrf_token %}
   {{ form.as_p }}
   <button type="submit">Criar</button>
 </form>
+{% else %}
+  <p>Você não está logado.</p>
+  <br>
+  <a href="{% url 'accounts:login' %}" class="botaozinho">Faça login aqui</a>
+{% endif %}
 {% endblock content %}

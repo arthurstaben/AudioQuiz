@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<h2>Editar Atividade: {{ atividade.nome }}</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+    <a href="{% url 'classes:atividades_index' atividade.classe.id %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% else %}
+  <p>Você não está logado.</p>
+  <br>
+  <a href="{% url 'accounts:login' %}" class="botaozinho">Faça login aqui</a>
+{% endif %}
+{% endblock content %}
